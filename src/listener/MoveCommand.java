@@ -24,6 +24,7 @@ public class MoveCommand extends ClientListenerAdapter
 			System.out.println("@move command the name is " + s[1] + " " + x + " " + y);
 			listofPlayersOnline.put(name, new Point(x,y));
 			client.process("UPDATEBOARD");
+			client.send("LIST");
 		}
 	}
 		

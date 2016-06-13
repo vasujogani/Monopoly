@@ -6,9 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
-public class CardLabel extends JButton implements ActionListener{
+public class CardLabel extends JButton implements ActionListener, ICardLabel {
 	private String name;
+	
 	private String cost;
 	private String rent;
 	private String owner;
@@ -21,7 +24,7 @@ public class CardLabel extends JButton implements ActionListener{
 //				+ c + "<br/ > " 
 //				+ r + "<br/ > "
 //				+ "owned by: " + o + " </html>");
-		super("Card");
+		super("");
 		this.name = n;
 		this.cost = c;
 		this.rent = r;
@@ -29,13 +32,22 @@ public class CardLabel extends JButton implements ActionListener{
 		this.id = Integer.parseInt(i);
 		this.color = col;
 		addActionListener(this);
-		this.setOpaque(true);
-		this.setPreferredSize(new Dimension(50,200));
-		this.setLocation(10, 100*this.id);
-		this.setBackground(color);
+		if(!n.equals("")){
+			this.setOpaque(true);
+			this.setPreferredSize(new Dimension(50,200));
+			this.setLocation(10, 100*this.id);
+			this.setBackground(color);
+			this.setBorderPainted(true);
+			this.setText(""+n + "\n" + c + "\n " + r + "owned by: "+ o+"");
+		}else{
+			this.setOpaque(true);
+			this.setBackground(color);
+			this.setBorderPainted(true);
+			this.setText("");
+		}
 //		this.setText("<html>"+n+"<br />"+c+"<br />"+r+"<br /> owned by:"+o+"</html>");
-		this.appendText("<html>"+n + "\n" + c + "\n " + r + "owned by: "+ o+"</html>");
-//		this.setText("<html>"+n + "\n" + c + "\n " + r + "owned by: "+ o+"</html>");
+//		this.appendText("<html>"+n + "\n" + c + "\n " + r + "owned by: "+ o+"</html>");
+		
 /*		this.setText("<html>"+ n + "<br />"
 				+ c + "<br /> " 
 				+ r + "<br /> "
@@ -44,7 +56,7 @@ public class CardLabel extends JButton implements ActionListener{
 		this.selected = false;
 	}
 	
-	private void appendText(String string) {
+	public void appendText(String string) {
 		// TODO Auto-generated method stub
 		String temp = this.getText();
 		temp += "\n" + string;
@@ -54,9 +66,11 @@ public class CardLabel extends JButton implements ActionListener{
 	public void select(){
 		if(!selected){
 			this.setBackground(Color.BLACK);
+			this.setBorderPainted(true);
 			this.selected = true;
 		}else if(selected){
 			selected = false;
+			this.setBorderPainted(true);
 			this.setBackground(this.color);
 		}
 	}
@@ -65,11 +79,21 @@ public class CardLabel extends JButton implements ActionListener{
 		this.select();
 	}
 	
-	public int getSelectd(){
+	public boolean getSelectd(){
+		return this.selected;
+	}
+	
+	public int getId(){
 		return this.id;
 	}
 	
 	public void unSelect(){
-		this.setBackground(Color.WHITE);
+		this.setBorderPainted(true);
+		this.setBackground(this.color);
+	}
+	
+	public void dealSelect(Color c){
+		this.setBorderPainted(false);
+		this.setBackground(c);
 	}
 }

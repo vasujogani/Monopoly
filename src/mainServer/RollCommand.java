@@ -11,6 +11,7 @@ class RollCommand extends NetworkListenerAdapter
 		{
 			System.out.println("@RollCommand");
 			//roll and move process code goes here
+			//getting stuff ready...
 			int x = (int)(player.getLocation().getX());
 			int y = (int)(player.getLocation().getY());
 			int roll1 = Integer.parseInt(message.substring(5,6));
@@ -39,6 +40,7 @@ class RollCommand extends NetworkListenerAdapter
 				}
 			}
 			*/
+			//positioning
 			while(move > 0){
 	    		if((int)player.getLocation().getX() > 106 && (int)player.getLocation().getY() == 485)
 	    			player.setLocation(new Point((int)player.getLocation().getX() - 41, (int)player.getLocation().getY()));
@@ -68,13 +70,16 @@ class RollCommand extends NetworkListenerAdapter
 	    		move--;
 	    	}
 			//SEND THE PROPERTY CARD INFOS TO THE GUI CLINET HERE:
-			if(landedOn.getAvailable() && !landedOn.getType().equals("Jail")&& !landedOn.getType().equals("GoToJail")&&  !landedOn.getType().equals("Other")) {
+			if(landedOn.getAvailable()) {
 				server.broadcast("UPDATE " + landedOn.getName() + " Cost - " + landedOn.getCost() + " Rent - " + landedOn.getRent());
 				System.out.println("@RollCommand Sending the card info to the playerClient");
 			}
-			else if(landedOn.getAvailable()){
-//				landedOn.getMessage();
+			else if(landedOn.getType().equals("Quick")){ player.transact(landedOn.getCost()); server.broadcast("UPDATE " + player.getHandle() + " paid " + landedOn.getCost()); } 
+			else if(landedOn.getType().equals("GoToJail")) { 
+				server.getCardAt(10).putInJail(player);
+				
 			}
+				
 			IPlayer[] listOfPlayers = server.getClients();
 			//TO DO: COLLECT THE RENT FROM THE PLAYER LANDED IF THE CARD IS ALREADY BOUGHT.
 			if(!landedOn.getAvailable()){
@@ -86,6 +91,7 @@ class RollCommand extends NetworkListenerAdapter
 						break;
 					}
 				}
+				
 			}
 			/*
 			Here is the plan to update the moves:

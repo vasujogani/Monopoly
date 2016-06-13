@@ -29,6 +29,7 @@ public class GameClient implements Runnable, IClient
 		running = true;
 		listeners = new ArrayList<IClientListener>();
 		start = false;
+		handle = name;
 		this.send("SETHANDLE " + name);
 	}
 
@@ -84,5 +85,7 @@ public class GameClient implements Runnable, IClient
 	}
 	public void setStart(boolean s){System.out.println(s + " " + start); start = s; } 
 	public boolean start(){ return start; }
+	
+	public String getName(){return this.handle;}
 }
 

@@ -38,38 +38,40 @@ public class ListCommand extends ClientListenerAdapter
 //			String list = getName(str[3]);
 //			j.replaceRange(list, 0, j.getText().length());
 			message = message.substring(5);
-			System.out.println("@ListCommand The unprocessed string is " + message);
-			String[] todo = message.split("-");
-			for(int i = 0; i < todo.length; i++)
-				System.out.println("PROCESSING LIST: " + todo[i]);
-			String list = "";
-			for(int i = 0; i < todo.length; i++) {
-				todo[i] = todo[i].substring(1,todo[i].length()-1);
-				String[] finaltodo = todo[i].split(",");
-				String name = finaltodo[0];
-				String money = finaltodo[1];
-				list += name + ": " + money + " \n";
-				int x = 2;
-				int lineChanger = 0;
-				while(x < finaltodo.length){
-					if(lineChanger==0){
-						list += finaltodo[x] + ": ";
-						lineChanger++;
+			if(!message.equals("")){
+				System.out.println("@ListCommand The unprocessed string is " + message);
+				String[] todo = message.split("-");
+				for(int i = 0; i < todo.length; i++)
+					System.out.println("PROCESSING LIST: " + todo[i]);
+				String list = "";
+				for(int i = 0; i < todo.length; i++) {
+					todo[i] = todo[i].substring(1,todo[i].length()-1);
+					String[] finaltodo = todo[i].split(",");
+					String name = finaltodo[0];
+					String money = finaltodo[1];
+					list += name + ": " + money + " \n";
+					int x = 2;
+					int lineChanger = 0;
+					while(x < finaltodo.length){
+						if(lineChanger==0){
+							list += finaltodo[x] + ": ";
+							lineChanger++;
+						}
+						else if(lineChanger==1){
+							list += "Cost: " + finaltodo[x] + " ";
+							lineChanger++;
+						}
+						else if(lineChanger==2){
+							list += "Rent: " + finaltodo[x] + " \n";
+							lineChanger = 0;
+						}
+						x++;
 					}
-					else if(lineChanger==1){
-						list += "Cost: " + finaltodo[x] + " ";
-						lineChanger++;
-					}
-					else if(lineChanger==2){
-						list += "Rent: " + finaltodo[x] + " \n";
-						lineChanger = 0;
-					}
-					x++;
+					list+="\n";
 				}
-				list+="\n";
+				playerInfos.setText(list);
+				client.process("UPDATEBOARD");
 			}
-			playerInfos.setText(list);
-			client.process("UPDATEBOARD");
 		}
 	}
 /*	

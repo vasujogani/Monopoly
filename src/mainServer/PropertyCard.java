@@ -111,4 +111,10 @@ public class PropertyCard implements IPropertyCard
 	public int getY(){
 		return (int)(this.point.getY());
 	}
+
+	public void putInJail(IPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

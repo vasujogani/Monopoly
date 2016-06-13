@@ -42,4 +42,7 @@ public interface IPropertyCard
 	
 	//returns the id of the card
 	public int getId();
+
+	public void putInJail(IPlayer player);
+
 }

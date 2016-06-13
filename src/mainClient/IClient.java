@@ -24,4 +24,6 @@ public interface IClient
 	
 	public void setStart(boolean s);
 	public boolean start();
+	
+	public String getName();
 }
